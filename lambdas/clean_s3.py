@@ -28,16 +28,20 @@ def clean_s3():
             print("Examining object: " + item['Key'])
 
             # Skip directories, whitelisted files, and new files; delete everything else
-            if item['Key'].endswith('/') or (item['Key'] in WHITELISTED_KEYS) or is_new(item['LastModified']):
-                print("Skipping object: " + item['Key'])
+            if item['Key'].endswith('/'):
+                print("Skipping object: " + item['Key'] + " for reason IS_DIRECTORY.")
+            elif item['Key'] in WHITELISTED_KEYS:
+                print("Skipping object: " + item['Key'] + " for reason IS_WHITELISTED.")
+            elif is_new(item['LastModified']):
+                print("Skipping object: " + item['Key'] + " for reason IS_NEW.")
             else:
-                print('Deleting object: ', item['Key'])
+                print('Deleting object: ' + item['Key'])
                 client.delete_object(Bucket=s3_bucket_name, Key=item['Key'])
 
 
 # Supporting function that returns True if passed datetime is DAYS_RETAINED days old or newer
 def is_new(item_date):
-    cur_date = datetime.datetime.now()
+    cur_date = datetime.datetime.now(datetime.timezone.utc)
     time_delta = datetime.timedelta(days=DAYS_RETAINED)
     threshold_date = cur_date - time_delta
     return item_date > threshold_date

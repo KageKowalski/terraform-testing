@@ -19,7 +19,7 @@ resource "aws_lambda_function" "clean_s3_lambda" {
   function_name    = "clean_s3"
   handler          = "clean_s3.lambda_handler"
   runtime          = "python3.9"
-  timeout          = 1
+  timeout          = 10
   role             = aws_iam_role.clean_s3_role.arn
   source_code_hash = data.archive_file.clean_s3_zip.output_base64sha256
   tags             = var.tags
