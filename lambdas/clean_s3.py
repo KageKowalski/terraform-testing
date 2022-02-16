@@ -8,18 +8,20 @@ import datetime
 
 # Constants
 DAYS_RETAINED = 1
-WHITELISTED_KEYS = ["test-folder-1/junk-in-folder-2.txt", "JUNK OUT FOLDER 1.txt"]
-S3_BUCKET_NAMES = ["kage-kowalski-bucket"]
 
 
 # Cleans s3 buckets
-def clean_s3():
+def clean_s3(event):
+    # Pull whitelisted keys and s3 bucket names from event
+    whitelisted_keys = event["whitelisted_keys"]
+    s3_bucket_names = event["s3_bucket_names"]
+
     # Setup session and client
     session = boto3.Session()
     client = session.client('s3', 'us-west-2')
 
     # Loop through buckets
-    for s3_bucket_name in S3_BUCKET_NAMES:
+    for s3_bucket_name in s3_bucket_names:
         print("\nOpening bucket: " + s3_bucket_name)
         response = client.list_objects_v2(Bucket=s3_bucket_name)
 
@@ -30,7 +32,7 @@ def clean_s3():
             # Skip directories, whitelisted files, and new files; delete everything else
             if item['Key'].endswith('/'):
                 print("Skipping object: " + item['Key'] + " for reason IS_DIRECTORY.")
-            elif item['Key'] in WHITELISTED_KEYS:
+            elif item['Key'] in whitelisted_keys:
                 print("Skipping object: " + item['Key'] + " for reason IS_WHITELISTED.")
             elif is_new(item['LastModified']):
                 print("Skipping object: " + item['Key'] + " for reason IS_NEW.")
@@ -49,5 +51,4 @@ def is_new(item_date):
 
 # Lambda handler
 def lambda_handler(event, context):
-    clean_s3()
-
+    clean_s3(event)
