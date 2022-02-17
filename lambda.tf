@@ -44,7 +44,6 @@ resource "aws_iam_policy" "clean_s3_policy" {
 # Policy Document
 data "aws_iam_policy_document" "clean_s3_poldoc" {
   statement {
-    sid    = ""
     effect = "Allow"
 
     actions = [
