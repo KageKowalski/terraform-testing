@@ -53,9 +53,7 @@ data "aws_iam_policy_document" "clean_s3_poldoc" {
       "s3:ListBucket",
     ]
 
-    resources = [
-      aws_s3_bucket.kage-kowalski-bucket.arn,
-    ]
+    resources = var.clean_s3_poldoc_resources
   }
 }
 

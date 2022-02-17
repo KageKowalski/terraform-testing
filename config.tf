@@ -5,6 +5,11 @@
 variable "tags" {}
 variable "aws_access_key" {}
 variable "aws_secret_key" {}
+variable "clean_s3_poldoc_resources" {
+  description = "Buckets that clean_s3_role has access to"
+  type        = list(string)
+  default     = []
+}
 
 
 # Terraform configuration
