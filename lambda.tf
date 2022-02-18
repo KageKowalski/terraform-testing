@@ -34,14 +34,11 @@ resource "aws_iam_role" "clean_s3_role" {
 }
 
 
-# Policy
+# Policy + Policy Document
 resource "aws_iam_policy" "clean_s3_policy" {
   name   = "clean_s3_policy"
   policy = data.aws_iam_policy_document.clean_s3_poldoc.json
 }
-
-
-# Policy Document
 data "aws_iam_policy_document" "clean_s3_poldoc" {
   statement {
     effect = "Allow"
