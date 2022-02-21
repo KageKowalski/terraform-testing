@@ -1,4 +1,4 @@
-# Terraform code for configuring s3 buckets
+# Terraform code for configuring s3 bucket
 
 
 # kage-kowalski-bucket--------------------------------------------------------------------------------------------------
@@ -25,11 +25,7 @@ data "aws_iam_policy_document" "kage-kowalski-bucket-poldoc" {
       identifiers = [aws_iam_role.clean_s3_role.arn]
     }
 
-    actions = [
-      "s3:GetObject",
-      "s3:DeleteObject",
-      "s3:ListBucket",
-    ]
+    actions = var.clean_s3_poldoc_actions
 
     resources = [
       aws_s3_bucket.kage-kowalski-bucket.arn,
@@ -39,7 +35,7 @@ data "aws_iam_policy_document" "kage-kowalski-bucket-poldoc" {
 }
 
 
-# Object(s) in bucket
+# Folder in bucket
 resource "aws_s3_bucket_object" "kage-kowalski-bucket_test-folder-1" {
   bucket       = aws_s3_bucket.kage-kowalski-bucket.id
   acl          = "private"

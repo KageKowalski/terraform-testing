@@ -1,4 +1,4 @@
-# Terraform code for configuring Lambda functions
+# Terraform code for configuring Lambda function
 
 
 # clean_s3--------------------------------------------------------------------------------------------------------------
@@ -43,11 +43,7 @@ data "aws_iam_policy_document" "clean_s3_poldoc" {
   statement {
     effect = "Allow"
 
-    actions = [
-      "s3:GetObject",
-      "s3:DeleteObject",
-      "s3:ListBucket",
-    ]
+    actions = var.clean_s3_poldoc_actions
 
     resources = var.clean_s3_poldoc_resources
   }

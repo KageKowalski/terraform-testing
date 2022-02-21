@@ -1,4 +1,4 @@
-# Terraform and provider configuration data
+# Terraform and provider configurations + variable declarations
 
 
 # Declare variables
@@ -7,6 +7,11 @@ variable "aws_access_key" {}
 variable "aws_secret_key" {}
 variable "clean_s3_poldoc_resources" {
   description = "Buckets that clean_s3_role has access to"
+  type        = list(string)
+  default     = []
+}
+variable "clean_s3_poldoc_actions" {
+  description = "Actions that clean_s3_role is allowed to perform"
   type        = list(string)
   default     = []
 }

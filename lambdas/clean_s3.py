@@ -8,7 +8,7 @@ import datetime
 
 # Cleans s3 buckets
 def clean_s3(event):
-    # Pull whitelisted keys and s3 bucket names from event
+    # Pull whitelisted keys, s3 bucket names, and days retained threshold from event
     whitelisted_keys = event["whitelisted_keys"]
     s3_bucket_names = event["s3_bucket_names"]
     days_retained = event["days_retained"]
