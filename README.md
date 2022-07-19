@@ -52,3 +52,45 @@ testing purposes and is not necessary.
 
 **terraform.tfvars**\
 Holds definitions of variables declared in config.tf.
+
+## necesse_server
+
+The purpose of necesse_server is to create the necessary AWS infrastructure
+for a fully functioning Necesse multiplayer server. The code 
+could theoretically be copied and altered to set up a similar multiplayer
+video game server for a different video game.
+
+**Steps to run server**
+1. Build Terraform
+2. Run necesse_ec2_init.sh script on ec2 instance as ubuntu user from home
+3. Launch the server once manually and configure desired settings
+   1. To launch server, run StartServer-nogui.sh at below directory:
+   2. ~/Steam/steamapps/common/Necesse\ Dedicated\ Server
+4. Save, daemon-reload, enable, and start "necesse.service" on ec2 instance
+
+**config.tf**\
+Contains all terraform code for provisioning the AWS infrastructure
+necessary for the server to run. The most important unique pieces
+here are necesse_ec2, which is the ec2 instance that acts as the server,
+and necesse_sg + necesse_sg_*, which is the security group defining the
+firewall rules for the ec2 instance, as well as all of the individual
+firewall rules making up the security group. An output block is defined
+to print the public IP address of the server when Terraform builds.
+
+**necesse_ec2_init.sh**\
+This is the initialization script for software that needs to run on the
+ec2 instance. This script should be copied to the ec2 instance and executed
+from the home directory of the ubuntu user. The script will install all
+necessary software for the server to run. The script is accurate as of
+July 18th 2022 and would need to be updated if running a server for a
+different game, or if running a Necesse server in the future after the
+installation procedure changes.
+
+**ssh.pub**\
+The public ssh key to remote into the ec2 instance, in order to configure
+the server. This file currently contains my personal public ssh key and
+must be updated to reflect the ssh key of the user configuring the server.
+
+**necesse.service**\
+The service (unit) file to run the Necesse server automatically on the
+ec2 instance.
