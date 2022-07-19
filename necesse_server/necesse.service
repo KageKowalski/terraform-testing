@@ -1,0 +1,9 @@
+[Unit]
+Description=Necesse server
+After=network.target
+
+[Service]
+ExecStart=/bin/bash -c '/home/ubuntu/Steam/steamapps/common/Necesse\ Dedicated\ Server/StartServer-nogui.sh -world ENTER_WORLDNAME_HERE'
+
+[Install]
+WantedBy=multi-user.target
